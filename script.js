@@ -4,12 +4,15 @@ const createTable = (captions, icons, data) => {
 
 	const theadThs = captions.reduce( (prev, caption) => prev + `
 		<th>${caption}
-          <button class="svg-button hide" onclick="hideColumn(${captions.indexOf(caption)})">
+		<div class="button-area">
+			<button class="svg-button hide" onclick="hideColumn(${captions.indexOf(caption)})">
             ${icons.hideIcon}
           </button>
           <button class="svg-button sort" onclick="sortColumn(${captions.indexOf(caption)})">
             ${icons.sortIcon}
           </button>
+		</div>
+          
         </th>`, '')
 
 	document.querySelector('.table').innerHTML = `
@@ -19,7 +22,16 @@ const createTable = (captions, icons, data) => {
 			</tr>
 		</thead>
 		<tbody>
-		</tbody></table>`
+		</tbody>
+		</table>
+		<div class="button-area navigation">
+			<button class="svg-button" onclick="changePage(${"left"})">
+            	${icons.left}
+			</button>
+			<button class="svg-button sort" onclick="changePage(${"right"})">
+				${icons.right}
+			</button>
+		</div>`
 
 	createTableBody(data)
 }
@@ -39,16 +51,17 @@ const createTableBody = (data, hide = false) => {
 }
 
 const sortColumn = (captionIndex) => {
-		const caption = captions[captionIndex].split(' ').join('')
-		let sortIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .sort`)
-		const isAlphaSort = [...sortIcon.classList].indexOf('sort-rotate') === -1 ? false : true // флаг направления сортировки 
+	changeDataDiv.style.display = 'none'
+	const caption = captions[captionIndex].split(' ').join('')
+	const sortIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .sort`)
+	const isAlphaSort = [...sortIcon.classList].indexOf('sort-rotate') === -1 ? false : true // флаг направления сортировки 
 
-		data = bubbleSort(data, caption, isAlphaSort)
+	data = bubbleSort(data, caption, isAlphaSort)
 
-		createTableBody(data)
-		json = JSON.stringify(data)
+	createTableBody(data)
+	// json = JSON.stringify(data)
 
-		sortIcon.classList.toggle('sort-rotate') // поворот иконки сортировки
+	sortIcon.classList.toggle('sort-rotate') // поворот иконки сортировки
 }
 
 const bubbleSort = (data, caption, isAlphaSort) => {
@@ -78,26 +91,42 @@ const bubbleSort = (data, caption, isAlphaSort) => {
 }
 
 const hideColumn = captionIndex => {
-		const hideIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .hide`)
-		hideIcon.innerHTML.trim() === icons.hideIcon ? hideIcon.innerHTML = icons.hideIconSplash : hideIcon.innerHTML = icons.hideIcon
-		hideIcon.classList.toggle('hide-splash')
+	changeDataDiv.style.display = 'none'
+	const hideIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .hide`)
+	hideIcon.innerHTML.trim() === icons.hideIcon ? hideIcon.innerHTML = icons.hideIconSplash : hideIcon.innerHTML = icons.hideIcon
+	hideIcon.classList.toggle('hide-splash')
+
+	const columnHead = document.querySelector(`.table thead th:nth-child(${captionIndex+1})`)
+	const columnBody = [...document.querySelectorAll(`.table tbody td:nth-child(${captionIndex+1})`)]
+	
+	columnBody.forEach( (elem, index) => {
+		elem.classList.toggle('visually-hidden')
+	});
+
+	columnHead.querySelectorAll('button')[1].classList.toggle('visually-hidden') // 
+	columnHead.classList.toggle('th-hide')
+
+	// columnHead.querySelector('sort').classList.toggle('visually-hidden')
+	console.log(columnHead, columnHead.querySelectorAll('button')[1])
 
 
 }
 
-const closeChangeDataDiv = () => document.querySelector('.change-data').style.display = 'none'
+const closeChangeDataDiv = () => changeDataDiv.style.display = 'none'
 
 const handleInput = () => {
 	const form = document.querySelector('.change-data form')
 	const newValues = [...form.querySelectorAll('input'), form.querySelector('textarea')]
 	newValues.map( caption => {
-		console.log(caption.id)
-		return data[rowIndex][caption.id] = caption.value
+		// console.log(!!data[rowIndex][caption.id])
+		!!data[rowIndex][caption.id] 
+			? data[rowIndex][caption.id] = caption.value
+			: data[rowIndex].name[caption.id] = caption.value
 	})
 
 	// console.log(data[rowIndex])
-	createTableBody(captions, icons, data)
-	json = JSON.stringify(data)
+	createTableBody(data)
+	// json = JSON.stringify(data)
 	// json = data.stringify()
 }
 
@@ -117,7 +146,7 @@ createTable(captions, icons, data) // создаем и наполняем та�
 // addEllipsis() //
 
 const changeDataDiv = document.querySelector('.change-data') // получаем форму редактирования
-console.log(changeDataDiv)
+// console.log(changeDataDiv)
 
 // заполнение формы данными из строки
 document.querySelector('tbody').onclick = (evt) => {

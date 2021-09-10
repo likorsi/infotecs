@@ -5,7 +5,20 @@ body {
     padding: 0;
     box-sizing: border-box;
     display: flex;
-    min-width: 650px; 
+    min-width: 720px; 
+}
+
+/*  */
+
+.visually-hidden {
+	position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    clip: rect(0,0,0,0);
+    overflow: hidden;
 }
 
 /* стили для svg-кнопок */
@@ -14,8 +27,8 @@ body {
 	width: 100%;
 	border: 1px solid white;
 	background-color: white;
-	padding: 10px;
-	margin: 5px;
+	padding: 5px;
+	margin: 0px;
 	cursor: pointer;
 }
 
@@ -111,12 +124,28 @@ body {
 }
 
 .table tbody tr {
-	transition: all .3s ease-in-out; /* анимация наведение на строку */
+	transition: all .3s ease-in-out; /* анимация наведения на строку */
 }
 
 .table tbody tr:hover {
 	background: rgba(200, 200, 200, .7);
 	cursor: pointer;
+}
+
+.th-hide {
+	display: absolute;
+	left: 50%;
+	transition: all .3s ease-in-out;
+}
+
+.button-area {
+	display: flex;
+	justify-content: center;
+	/*margin: 20px;*/
+}
+
+.navigation {
+	margin: 10px 0 0px 20px;
 }
 
 /* поворот кнопки сортировки */
@@ -154,7 +183,7 @@ body {
 	display: none;
 	width: 40%;
 	margin: 50px auto;
-	text-align: center
+	text-align: center;
 }
 
 .change-data form {
@@ -178,6 +207,8 @@ body {
 	font-family: inherit;
 	font-size: inherit;
 }
+
+/*  */
 
 .edit {
 	text-transform: uppercase;

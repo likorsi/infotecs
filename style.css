@@ -20,7 +20,8 @@ body {
 }
 
 .svg-button svg path {
-	fill: black;
+	/*fill: black;*/
+	fill: #000;
 	transition: fill .3s ease-in-out;
 }
 
@@ -88,6 +89,7 @@ body {
 	text-transform: uppercase;
 	padding: 10px 15px;
 	vertical-align: bottom;
+	transition: all .3s ease-in-out;
 }
 
 .table td, th {
@@ -123,6 +125,29 @@ body {
 	transform: rotate(-90deg);
 }
 
+.sort-rotate svg {
+	transform: rotate(90deg);
+}
+
+/*  */
+
+.hide svg {
+	width: 25px;
+}
+
+.hide path {
+	stroke: #000;
+	stroke-width: 0.4;
+}
+
+.hide:hover path {
+	stroke: #aaa;
+}
+
+.hide-splash:hover line {
+	stroke: #aaa;
+}
+
 /* стили для блока редактирования данных */
 
 .change-data {
@@ -153,14 +178,6 @@ body {
 	font-family: inherit;
 	font-size: inherit;
 }
-
-
-
-/*.change-data input[type=color] {
-	padding: 0;
-	border: 1px solid #ddd;
-	cursor: pointer;
-}*/
 
 .edit {
 	text-transform: uppercase;

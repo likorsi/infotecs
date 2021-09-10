@@ -1,15 +1,31 @@
 'use strict'
 
-const createTable = (captions, icon, data) => { 
+const createTable = (captions, icons, data) => { 
 
 	const theadThs = captions.reduce( (prev, caption) => prev + `
 		<th>${caption}
+          <button class="svg-button hide" onclick="hideColumn(${captions.indexOf(caption)})">
+            ${icons.hideIcon}
+          </button>
           <button class="svg-button sort" onclick="sortColumn(${captions.indexOf(caption)})">
-            ${icon}
+            ${icons.sortIcon}
           </button>
         </th>`, '')
 
-	const tbodyTrs = data.reduce( (prev, elem) => prev +  `
+	document.querySelector('.table').innerHTML = `
+		<table><thead>
+			<tr> 
+				${theadThs}
+			</tr>
+		</thead>
+		<tbody>
+		</tbody></table>`
+
+	createTableBody(data)
+}
+
+const createTableBody = (data, hide = false) => {
+	document.querySelector('tbody').innerHTML = data.reduce( (prev, elem) => prev +  `
   		<tr>
       		<td>${elem.name.firstName}</td>
       		<td>${elem.name.lastName}</td>
@@ -20,27 +36,53 @@ const createTable = (captions, icon, data) => {
       			</div>
       		</td>
       	</tr>`, '')
-
-	document.querySelector('.table').innerHTML = `
-		<table><thead>
-			<tr> 
-				${theadThs}
-			</tr>
-		</thead>
-		<tbody>
-			${tbodyTrs}
-		</tbody></table>`
 }
 
 const sortColumn = (captionIndex) => {
-		const sortIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .sort`)
 		const caption = captions[captionIndex].split(' ').join('')
-		// console.log('sortIcon =', sortIcon)
-		console.log('caption = ', caption)			
+		let sortIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .sort`)
+		const isAlphaSort = [...sortIcon.classList].indexOf('sort-rotate') === -1 ? false : true // флаг направления сортировки 
 
-		let styleSortIcon = sortIcon.querySelector('svg').style
-		console.log(styleSortIcon.transform)
-		styleSortIcon.transform === 'rotate(-90deg)' ? styleSortIcon.transform = 'rotate(90deg)' : styleSortIcon.transform = 'rotate(-90deg)'
+		data = bubbleSort(data, caption, isAlphaSort)
+
+		createTableBody(data)
+		json = JSON.stringify(data)
+
+		sortIcon.classList.toggle('sort-rotate') // поворот иконки сортировки
+}
+
+const bubbleSort = (data, caption, isAlphaSort) => {
+	const len = data.length - 1
+
+	for (let i = 0; i < len; i++) {
+        for (let j = 0; j < len - i; j++) {
+        	let current = data[j][caption] || data[j].name[caption] // страховка от undefind
+        	let next = data[j + 1][caption] || data[j + 1].name[caption] 
+        	if (isAlphaSort) {
+				if (current > next) {
+	                let swap = data[j]
+	                data[j] = data[j + 1]
+	                data[j + 1] = swap
+	            }
+        	} else {
+        		if (current < next) {
+	                let swap = data[j]
+	                data[j] = data[j + 1]
+	                data[j + 1] = swap
+	            }
+        	}
+            
+        }
+    }
+    return data
+}
+
+const hideColumn = captionIndex => {
+		const hideIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .hide`)
+		hideIcon.innerHTML.trim() === icons.hideIcon ? hideIcon.innerHTML = icons.hideIconSplash : hideIcon.innerHTML = icons.hideIcon
+		hideIcon.classList.toggle('hide-splash')
+
+
 }
 
 const closeChangeDataDiv = () => document.querySelector('.change-data').style.display = 'none'
@@ -54,28 +96,23 @@ const handleInput = () => {
 	})
 
 	// console.log(data[rowIndex])
-	createTable(captions, sortIcon, data)
+	createTableBody(captions, icons, data)
+	json = JSON.stringify(data)
+	// json = data.stringify()
 }
 
 
 let data = JSON.parse(json)
 let rowIndex = -1 // переменная для запоминания строки, на которой произошел клик
-
+// console.log(JSON.stringify(data))
 // json = JSON.stringify(data)
-
-const sortIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="transform='rotate(-90deg)'">
-      <path fill="#000" d="M18.271,9.212H3.615l4.184-4.184c0.306-0.306,0.306-0.801,0-1.107c-0.306-0.306-0.801-0.306-1.107,0
-      L1.21,9.403C1.194,9.417,1.174,9.421,1.158,9.437c-0.181,0.181-0.242,0.425-0.209,0.66c0.005,0.038,0.012,0.071,0.022,0.109
-      c0.028,0.098,0.075,0.188,0.142,0.271c0.021,0.026,0.021,0.061,0.045,0.085c0.015,0.016,0.034,0.02,0.05,0.033l5.484,5.483
-      c0.306,0.307,0.801,0.307,1.107,0c0.306-0.305,0.306-0.801,0-1.105l-4.184-4.185h14.656c0.436,0,0.788-0.353,0.788-0.788
-      S18.707,9.212,18.271,9.212z"></path></svg>`
 
 const re = new RegExp('(?=[A-Z])') // regExp для разделения названий через заглавную
 const captions = Object.keys(data[0].name).concat(Object.keys(data[0]).slice(-2)).map( caption => {
 	return caption.split(re).join(' ')
 })
 
-createTable(captions, sortIcon, data) // создаем и наполняем таблицу
+createTable(captions, icons, data) // создаем и наполняем таблицу
 
 // addEllipsis() //
 

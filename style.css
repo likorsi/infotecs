@@ -1,0 +1,186 @@
+
+/* основные стили + обнуление базовых стилей браузера  */
+body {
+	margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    min-width: 650px; 
+}
+
+/* стили для svg-кнопок */
+
+.svg-button {
+	width: 100%;
+	border: 1px solid white;
+	background-color: white;
+	padding: 10px;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.svg-button svg path {
+	fill: black;
+	transition: fill .3s ease-in-out;
+}
+
+.svg-button svg {
+	width: 20px;
+}
+
+.svg-button:hover svg path {
+	fill: #aaa;
+}
+
+
+/* стили для обрезки колонки about */
+
+.clip {
+	overflow: hidden;
+	text-overflow: clip;
+	height: 2.5em;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+
+.table td:nth-child(3) {
+	display: flex;
+	align-items: flex-end;
+	justify-content: right;
+}
+
+.table td:nth-child(3) span {
+	margin-bottom: 4px
+}
+
+/* стили для отображения цвета */
+
+.color {
+	margin: 0 auto;
+	border: 1px solid black;
+	border-radius: 5px;
+	min-width: 60px;
+	width: 80%;
+	height: 20px;
+	opacity: 0.75;
+}
+
+.color span {
+	display: none; /* скрытие текстового варианта цвета */
+}
+
+/* стили таблицы */
+
+.table {
+	width: 50%;
+	margin: 20px;
+}	
+
+.table table {
+	border-collapse: collapse;
+	border: 2px solid white;
+	text-align: center;	
+}
+
+.table th {
+	font-weight: bold;
+	text-transform: uppercase;
+	padding: 10px 15px;
+	vertical-align: bottom;
+}
+
+.table td, th {
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	padding: 5px;
+}
+
+.table tbody td:first-child {
+	border-radius: 10px 0 0 10px;
+}
+
+.table tbody td:last-child {
+	border-radius: 0 10px 10px 0;
+}
+
+.table tbody tr:nth-child(odd){
+	background: #F5F5F5;
+}
+
+.table tbody tr {
+	transition: all .3s ease-in-out; /* анимация наведение на строку */
+}
+
+.table tbody tr:hover {
+	background: rgba(200, 200, 200, .7);
+	cursor: pointer;
+}
+
+/* поворот кнопки сортировки */
+
+.sort svg {
+	transform: rotate(-90deg);
+}
+
+/* стили для блока редактирования данных */
+
+.change-data {
+	display: none;
+	width: 40%;
+	margin: 50px auto;
+	text-align: center
+}
+
+.change-data form {
+	display: block;
+	padding: 15px;
+}
+
+.change-data label {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.change-data input, 
+.change-data textarea {
+	display: block;
+	width: 80%;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	margin: 20px auto;
+	padding: 5px;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+
+
+/*.change-data input[type=color] {
+	padding: 0;
+	border: 1px solid #ddd;
+	cursor: pointer;
+}*/
+
+.edit {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 1.1em;
+	font-family: inherit;
+	margin: 0 auto;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	background-color: white;
+	padding: 5px;
+	cursor: pointer;
+	width: 70%;
+	transition: all .3s ease-in-out;
+}
+
+.edit:hover {
+	box-shadow: 4px 4px 15px #aaa;
+}
+
+
+
+

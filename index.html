@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <script defer type="text/javascript" src="data.js"></script>
+    <script defer type="text/javascript"src="script.js" ></script>
+    <link href="style.css" rel="stylesheet">
+    <title>Infotecs test task</title>
+  </head>
+  <body>
+
+    <div class="table"></div>
+    
+
+    <div class="change-data">
+      <button class="svg-button" onclick="closeChangeDataDiv()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path fill="black" d="M11.469,10l7.08-7.08c0.406-0.406,0.406-1.064,0-1.469c-0.406-0.406-1.063-0.406-1.469,0L10,8.53l-7.081-7.08
+          c-0.406-0.406-1.064-0.406-1.469,0c-0.406,0.406-0.406,1.063,0,1.469L8.531,10L1.45,17.081c-0.406,0.406-0.406,1.064,0,1.469
+          c0.203,0.203,0.469,0.304,0.735,0.304c0.266,0,0.531-0.101,0.735-0.304L10,11.469l7.08,7.081c0.203,0.203,0.469,0.304,0.735,0.304
+          c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
+        </svg>
+      </button>
+      <form action="">
+        <label for="firstName">first Name</label>
+        <input id="firstName" type="text" required autofocus>
+
+        <label for="lastName">last Name</label>
+        <input id="lastName" type="text" required>
+
+        <label for="about">about</label>
+        <textarea id="about" rows="7" required></textarea>
+
+        <label for="eyeColor">eye Color</label>
+        <input id="eyeColor" type="text" required>
+        <button class="edit" type="button" onclick="handleInput()">edit</button>
+        
+      </form>
+    </div>
+
+  </body>
+
+</html>

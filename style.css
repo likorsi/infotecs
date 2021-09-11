@@ -5,20 +5,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     display: flex;
-    min-width: 720px; 
-}
-
-/*  */
-
-.visually-hidden {
-	position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    border: 0;
-    padding: 0;
-    clip: rect(0,0,0,0);
-    overflow: hidden;
+    min-width: 700px; 
 }
 
 /* стили для svg-кнопок */
@@ -33,7 +20,6 @@ body {
 }
 
 .svg-button svg path {
-	/*fill: black;*/
 	fill: #000;
 	transition: fill .3s ease-in-out;
 }
@@ -53,19 +39,17 @@ body {
 	overflow: hidden;
 	text-overflow: clip;
 	height: 2.5em;
-	display: -webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
+	padding-right: 0;
 }
 
-.table td:nth-child(3) {
+.about {
 	display: flex;
 	align-items: flex-end;
-	justify-content: right;
 }
 
-.table td:nth-child(3) span {
-	margin-bottom: 4px
+.ellipsis {
+	margin-bottom: 3px;
+
 }
 
 /* стили для отображения цвета */
@@ -98,15 +82,17 @@ body {
 }
 
 .table th {
+	/*position: relative;*/
+	width: calc(100%/4);
 	font-weight: bold;
 	text-transform: uppercase;
-	padding: 10px 15px;
+	/*padding: 10px 15px;*/
 	vertical-align: bottom;
+	border-bottom: 1px solid #ddd;
 	transition: all .3s ease-in-out;
 }
 
 .table td, th {
-	border-right: 1px solid #ddd;
 	border-left: 1px solid #ddd;
 	padding: 5px;
 }
@@ -133,10 +119,13 @@ body {
 }
 
 .th-hide {
-	display: absolute;
-	left: 50%;
+	position: relative;
+	/*left: calc(100% / 4);*/
+	opacity: 0.5;
 	transition: all .3s ease-in-out;
 }
+
+/*  */
 
 .button-area {
 	display: flex;
@@ -229,6 +218,16 @@ body {
 	box-shadow: 4px 4px 15px #aaa;
 }
 
+.table > .edit {
+	text-transform: lowercase;
+	width: 100%;
+	margin: 20px auto;
+	/*margin-top: 20px;*/
+}
 
+/*  */
 
-
+.visually-hidden {
+    display: none;
+    /*visibility: hidden;*/
+}

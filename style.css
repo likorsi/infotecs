@@ -45,6 +45,7 @@ body {
 .about {
 	display: flex;
 	align-items: flex-end;
+	text-align: right;
 }
 
 .ellipsis {
@@ -229,5 +230,4 @@ body {
 
 .visually-hidden {
     display: none;
-    /*visibility: hidden;*/
 }

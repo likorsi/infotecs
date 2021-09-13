@@ -36,8 +36,8 @@ body {
 
 .clip {
 	-webkit-line-clamp: 2; /* Число отображаемых строк */
-    display: -webkit-box; /* Включаем флексбоксы */
-    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     padding-right: 3px;
 }
@@ -118,12 +118,11 @@ body {
 	transition: all .3s ease-in-out;
 }
 
-/*  */
+/* стили кнопок навигации */
 
 .button-area {
 	display: flex;
 	justify-content: center;
-	/*margin: 20px;*/
 }
 
 .navigation {
@@ -140,7 +139,7 @@ body {
 	transform: rotate(90deg);
 }
 
-/*  */
+/* стили иконок скрытия столбца */
 
 .hide svg {
 	width: 25px;
@@ -195,7 +194,7 @@ body {
 	outline: pink;
 }
 
-/*  */
+/* стили кнопки редактирования данных */
 
 .edit {
 	text-transform: uppercase;
@@ -223,7 +222,7 @@ body {
 	/*margin-top: 20px;*/
 }
 
-/*  */
+/* стиль для скрытия блоков */
 
 .visually-hidden {
     display: none;

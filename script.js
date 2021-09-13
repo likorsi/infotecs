@@ -22,6 +22,7 @@ const createTable = (captions, icons, data, hidden, startIndex) => {
           </button>
 		</div></th>`, '') 
 
+	// генерация заголовков скрытых столбцов взамен текущих
 	const theadSideTh = thead || captions.reduce((prev, caption) => prev + `
 		<th class="side-${caption.split(' ').join('')} visually-hidden th-hide">${caption}
 		<div class="button-area">
@@ -84,7 +85,6 @@ const createTableBody = (data, hidden, startInde, count=10) => {
   * @param {number} captionIndex - индекс заголовка
   */
 const sortColumn = captionIndex => {
-	// changeDataDiv.style.display = 'none'
 	const caption = captions[captionIndex].split(' ').join('')
 	const sortIcon = document.querySelector(`.table thead th:nth-child(${captionIndex+1}) .sort`)
 	const isAlphaSort = [...sortIcon.classList].indexOf('sort-rotate') === -1 ? false : true // флаг направления сортировки 
@@ -95,6 +95,7 @@ const sortColumn = captionIndex => {
 	sortIcon.classList.toggle('sort-rotate') // поворот иконки сортировки
 	thead = document.querySelector('thead').innerHTML
 	refresh('thead', thead)
+	rowIndex = 0 // обнуление текущего индекса строки
 	handleTbody()
 }
 
@@ -155,13 +156,12 @@ const hideColumn = captionIndex => {
   * Скрытие формы редактирования
   * 
   */
-const closeChangeDataDiv = () => {
-	changeDataDiv.style.display = refresh('formDisplay', 'none')
-}
+const closeChangeDataDiv = () => changeDataDiv.style.display = refresh('formDisplay', 'none')
 
 /**
   * Получение данных из формы редактирования
   * 
+  * @returns {boolean}
   */
 const handleChangeDataDiv = () => {
 	const form = document.querySelector('.change-data form')
@@ -175,6 +175,8 @@ const handleChangeDataDiv = () => {
 
 	createTableBody(refresh('data', data), refresh('hidden', hidden), refresh('startIndex', startIndex))
 	handleTbody()
+
+	return false // возврат false, чтобы отменить обновление страницы
 }
 
 /**
@@ -188,6 +190,7 @@ const changePage = (side, count=10) => {
 		? startIndex + count > data.length-1 ? startIndex = 0 : startIndex += count
 		: startIndex - count < 0 ? startIndex = data.length-count : startIndex -= count
 	createTableBody(refresh('data', data), refresh('hidden', hidden), refresh('startIndex', startIndex))
+	rowIndex = 0
 	handleTbody()
 }
 
@@ -223,7 +226,11 @@ const makeOriginal = () => {
 	
 	// обновление тела таблицы и его обработчика
 	tbody = document.querySelector('tbody')
-	tbody.onclick = evt => handleTbody(evt, refresh('formDisplay', 'block'))
+	tbody.onclick = evt => {
+		refresh('formDisplay', 'block')
+		handleTbody(evt)
+	} 
+	rowIndex = 0 // обнуление текущего индекса строки
 	handleTbody()
 }
 
@@ -232,8 +239,8 @@ const makeOriginal = () => {
   * 
   * @param {Object} evt - событие 
   */
-const handleTbody = (evt, defaultIndex) => {
-  	rowIndex = evt && ((evt.target.parentNode.rowIndex || evt.target.parentNode.parentNode.rowIndex) - 1) || defaultIndex || 0
+const handleTbody = evt => {
+  	rowIndex = evt && ((evt.target.parentNode.rowIndex || evt.target.parentNode.parentNode.rowIndex) - 1) || rowIndex
 	const form = document.querySelector('.change-data form')
 	const inputs = [...form.querySelectorAll('input'), ...form.querySelectorAll('textarea')]
 	inputs.map( input => {
@@ -245,26 +252,29 @@ const handleTbody = (evt, defaultIndex) => {
 
 // инициализация данных или получение старых из хранилища
 // "||" для страховки от некорректных значений
+
 let data = JSON.parse(localStorage.getItem('data') || json)
 let startIndex = parseInt(localStorage.getItem('startIndex')) || 0 // позиция, с которой нужно показать постраничный вывод
-// 
-let hidden = JSON.parse(localStorage.getItem('hidden')) || // информация о состоянии заголовков 
+let hidden = JSON.parse(localStorage.getItem('hidden')) || 		   // информация о состоянии заголовков 
 			{'firstName': '','lastName': '','about': '','eyeColor': ''}
-let thead = localStorage.getItem('thead') || '' // состояние шапки таблицы
-let rowIndex = -1 // индекс строки тела таблицы, на которой произошел клик
+let thead = localStorage.getItem('thead') || '' 				   // состояние шапки таблицы
+let rowIndex = 0 												   // индекс строки тела таблицы, на которой произошел клик, по умолчанию - первая
 
 
-const re = new RegExp('(?=[A-Z])') // regExp для разделения названий через заглавную
+const re = new RegExp('(?=[A-Z])') 		   // regExp для разделения названий через заглавную
 const captions = Object.keys(data[0].name) // создание массива заголовков 
 	.concat(Object.keys(data[0]).slice(-2))
 	.map( caption => {
 		return caption.split(re).join(' ')
 	})
 
-createTable(captions, icons, data, hidden, startIndex) // создание и наполнение таблицы
+createTable(captions, icons, data, hidden, startIndex) 		 // создание и наполнение таблицы
 const changeDataDiv = document.querySelector('.change-data') // получаем форму редактирования
 
 
 let tbody = document.querySelector('tbody') // получение тела таблицы
-tbody.onclick = evt => handleTbody(evt, refresh('formDisplay', 'block')) // заполнение формы данными из строки по клику
-handleTbody() // дефолтное заполнение формы данными из первой строки
+tbody.onclick = evt => {					// заполнение формы данными из строки по клику
+	refresh('formDisplay', 'block')
+	handleTbody(evt)
+} 
+handleTbody() // дефолтное заполнение формы данными

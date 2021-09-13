@@ -24,7 +24,7 @@
           c0.267,0,0.532-0.101,0.735-0.304c0.406-0.406,0.406-1.064,0-1.469L11.469,10z"></path>
         </svg>
       </button>
-      <form action="">
+      <form name="form" action="" onsubmit="handleChangeDataDiv()">
         <label for="firstName">first Name</label>
         <input id="firstName" type="text" required autofocus>
 
@@ -36,7 +36,7 @@
 
         <label for="eyeColor">eye Color</label>
         <input id="eyeColor" type="text" required>
-        <button class="edit" type="button" onclick="handleChangeDataDiv()">
+        <button class="edit" type="submit">
           edit
         </button>
         

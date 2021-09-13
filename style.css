@@ -32,25 +32,14 @@ body {
 	fill: #aaa;
 }
 
-
 /* стили для обрезки колонки about */
 
 .clip {
-	overflow: hidden;
-	text-overflow: clip;
-	height: 2.5em;
-	padding-right: 0;
-}
-
-.about {
-	display: flex;
-	align-items: flex-end;
-	text-align: right;
-}
-
-.ellipsis {
-	margin-bottom: 3px;
-
+	-webkit-line-clamp: 2; /* Число отображаемых строк */
+    display: -webkit-box; /* Включаем флексбоксы */
+    -webkit-box-orient: vertical; /* Вертикальная ориентация */
+    overflow: hidden;
+    padding-right: 3px;
 }
 
 /* стили для отображения цвета */
@@ -83,11 +72,9 @@ body {
 }
 
 .table th {
-	/*position: relative;*/
 	width: calc(100%/4);
 	font-weight: bold;
 	text-transform: uppercase;
-	/*padding: 10px 15px;*/
 	vertical-align: bottom;
 	border-bottom: 1px solid #ddd;
 	transition: all .3s ease-in-out;
@@ -96,6 +83,12 @@ body {
 .table td, th {
 	border-left: 1px solid #ddd;
 	padding: 5px;
+	text-align: center;
+	vertical-align: center;
+}
+
+.table td {
+	height: 40px;
 }
 
 .table tbody td:first-child {
@@ -121,7 +114,6 @@ body {
 
 .th-hide {
 	position: relative;
-	/*left: calc(100% / 4);*/
 	opacity: 0.5;
 	transition: all .3s ease-in-out;
 }
@@ -170,7 +162,6 @@ body {
 /* стили для блока редактирования данных */
 
 .change-data {
-	display: none;
 	width: 40%;
 	margin: 50px auto;
 	text-align: center;
@@ -196,6 +187,12 @@ body {
 	padding: 5px;
 	font-family: inherit;
 	font-size: inherit;
+}
+
+.change-data input:invalid,
+.change-data textarea:invalid {
+	border-color: pink;
+	outline: pink;
 }
 
 /*  */

@@ -26,9 +26,7 @@
 - при перелистывании, сортировке и других действиях не теряются данные в форме - вы всегда видите актуальные данные
 - цвета доступны к написанию в любом виде - по имени или коду
 
-![readme-pics/name-color.png](readme-pics/name-color.png)
-
-![readme-pics/hex-color.png](readme-pics/hex-color.png)
+![readme-pics/name-color.png](readme-pics/name-color.png) ![readme-pics/hex-color.png](readme-pics/hex-color.png)
 
 - валидация данных
 
